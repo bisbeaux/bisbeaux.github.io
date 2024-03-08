@@ -1,5 +1,5 @@
 # Theme Input
-theme: jekyll-theme-cayman
+remote_theme: pages-themes/cayman@v0.2.0
 
 # Where things are
 source              : .
@@ -32,7 +32,7 @@ unpublished         : false
 
 # Plugins
 whitelist           : []
-plugins             : []
+plugins             : [jekyll-remote-theme]
 
 # Conversion
 markdown            : kramdown
