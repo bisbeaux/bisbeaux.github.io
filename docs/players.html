@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PNWRL - Players</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #151935; /* Dark blue */
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Top-bar menu styles */
+        .top-bar {
+            background-color: #000; /* Background color for the top-bar */
+            padding: 10px 20px; /* Add padding to top-bar */
+        }
+
+        .top-bar a {
+            color: #fff; /* Text color for links in the top-bar */
+            text-decoration: none;
+            margin-right: 20px; /* Add spacing between menu items */
+            font-size: 1.2rem; /* Font size for menu items */
+        }
+
+        .top-bar a:hover {
+            text-decoration: underline; /* Add underline on hover */
+        }
+      
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #00a5ff; /* Light blue */
+            text-align: center;
+        }
+
+        /* Player stat table styles */
+        .player-stats {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .player-stats th, .player-stats td {
+            border: 1px solid #fff;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .player-stats th {
+            background-color: #4b0082; /* Indigo */
+        }
+
+        .player-stats tbody tr:nth-child(even) {
+            background-color: #473b72; /* Dark purple */
+        }
+
+        /* Link to player list page styles */
+        .player-list-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .player-list-link a {
+            color: #87ceeb; /* Sky blue */
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .player-list-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Top-bar menu -->
+<div class="top-bar">
+    <a href="home.html">Home</a>
+    <a href="standings.html">Standings</a>
+    <a href="teams.html">Teams</a>
+    <a href="players.html">Players</a>
+    <a href="matches.html">Matches</a>
+    <a href="stats.html">Stats</a>
+</div>
+  
+<div class="container">
+    <h1>PNWRL - Players</h1>
+    
+    <!-- Goals stat table -->
+    <h2>Goals</h2>
+    <table class="player-stats">
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Goals</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Player goal stats will be dynamically populated here -->
+        </tbody>
+    </table>
+
+    <!-- Assists stat table -->
+    <h2>Assists</h2>
+    <table class="player-stats">
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Assists</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Player assist stats will be dynamically populated here -->
+        </tbody>
+    </table>
+
+    <!-- Saves stat table -->
+    <h2>Saves</h2>
+    <table class="player-stats">
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Saves</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Player save stats will be dynamically populated here -->
+        </tbody>
+    </table>
+
+    <!-- Demos stat table -->
+    <h2>Demos</h2>
+    <table class="player-stats">
+        <thead>
+            <tr>
+                <th>Player</th>
+                <th>Demos</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Player demo stats will be dynamically populated here -->
+        </tbody>
+    </table>
+
+    <!-- Link to player list page -->
+    <div class="player-list-link">
+        <a href="playerlist.html">View Full Player List</a>
+    </div>
+</div>
+
+</body>
+</html>
