@@ -14,6 +14,23 @@
             padding: 0;
         }
 
+        /* Top-bar menu styles */
+        .top-bar {
+            background-color: #000; /* Background color for the top-bar */
+            padding: 10px 20px; /* Add padding to top-bar */
+        }
+
+        .top-bar a {
+            color: #fff; /* Text color for links in the top-bar */
+            text-decoration: none;
+            margin-right: 20px; /* Add spacing between menu items */
+            font-size: 1.2rem; /* Font size for menu items */
+        }
+
+        .top-bar a:hover {
+            text-decoration: underline; /* Add underline on hover */
+        }
+        
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -70,6 +87,16 @@
 </head>
 <body>
 
+<!-- Top-bar menu -->
+<div class="top-bar">
+    <a href="home.html">Home</a>
+    <a href="standings.html">Standings</a>
+    <a href="teams.html">Teams</a>
+    <a href="players.html">Players</a>
+    <a href="matches.html">Matches</a>
+    <a href="stats.html">Stats</a>
+</div>
+    
 <div class="container">
     <h1>PNWRL - Standings</h1>
     <table>
