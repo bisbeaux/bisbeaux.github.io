@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PNWRL - Standings</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2e225a; /* Dark purple */
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #00a5ff; /* Light blue */
+            text-align: center;
+        }
+
+        /* Standings table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4b0082; /* Indigo */
+        }
+
+        tr:nth-child(even) {
+            background-color: #473b72; /* Dark blue */
+        }
+
+        tr:hover {
+            background-color: #1e90ff; /* Lighter blue on hover */
+        }
+
+        /* Team rank styles */
+        .rank {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #ba55d3; /* Medium purple */
+        }
+
+        /* Team name styles */
+        .team-name {
+            color: #87cefa; /* Light sky blue */
+        }
+
+        /* Points styles */
+        .points {
+            color: #00bfff; /* Deep sky blue */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>PNWRL - Standings</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Team</th>
+                <th>Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="rank">1</td>
+                <td class="team-name">Team A</td>
+                <td class="points">100</td>
+            </tr>
+            <tr>
+                <td class="rank">2</td>
+                <td class="team-name">Team B</td>
+                <td class="points">90</td>
+            </tr>
+            <!-- Add more rows for other teams -->
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
