@@ -74,9 +74,15 @@
             color: #ba55d3; /* Medium purple */
         }
 
-        /* Team name styles */
-        .team-name {
-            color: #87cefa; /* Light sky blue */
+        /* Team name link styles */
+        .team-name a {
+            color: #ba55d3; /* Medium purple */
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .team-name a:hover {
+            text-decoration: underline;
         }
 
         /* Points styles */
@@ -109,14 +115,14 @@
         </thead>
         <tbody>
             <tr>
-                <td class="rank">1</td>
-                <td class="team-name">Team A</td>
-                <td class="points">100</td>
+                <td>1</td>
+                <td class="team-name"><a href="team1.html">Team 1</a></td>
+                <td>100</td>
             </tr>
             <tr>
-                <td class="rank">2</td>
-                <td class="team-name">Team B</td>
-                <td class="points">90</td>
+                <td>2</td>
+                <td class="team-name"><a href="team2.html">Team 2</a></td>
+                <td>90</td>
             </tr>
             <!-- Add more rows for other teams -->
         </tbody>
