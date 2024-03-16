@@ -72,30 +72,32 @@
 
 <div class="container">
     <h1>PNWRL - Stats</h1>
-    <table id="stats-table">
-        <thead>
-            <tr>
-                <th onclick="sortTable(0)">Player</th>
-                <th onclick="sortTable(1)">Games Played</th>
-                <th onclick="sortTable(2)">Total Points</th>
-                <th onclick="sortTable(3)">Points/Game</th>
-                <th onclick="sortTable(4)">Total Goals</th>
-                <th onclick="sortTable(5)">Goals/Game</th>
-                <th onclick="sortTable(6)">Total Assists</th>
-                <th onclick="sortTable(7)">Assists/Game</th>
-                <th onclick="sortTable(8)">Total Saves</th>
-                <th onclick="sortTable(9)">Saves/Game</th>
-                <th onclick="sortTable(10)">Total Shots</th>
-                <th onclick="sortTable(11)">Shots/Game</th>
-                <th onclick="sortTable(12)">Shot Percentage</th>
-                <th onclick="sortTable(13)">Goal Participation</th>
-                <!-- Add more table headers for additional columns -->
-            </tr>
-        </thead>
-        <tbody id="stats-body">
-            <!-- Table rows will be dynamically generated here -->
-        </tbody>
-    </table>
+    <div class="center-table"> <!-- Added container for centering -->
+        <table id="stats-table">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Player</th>
+                    <th onclick="sortTable(1)">Games Played</th>
+                    <th onclick="sortTable(2)">Total Points</th>
+                    <th onclick="sortTable(3)">Points/Game</th>
+                    <th onclick="sortTable(4)">Total Goals</th>
+                    <th onclick="sortTable(5)">Goals/Game</th>
+                    <th onclick="sortTable(6)">Total Assists</th>
+                    <th onclick="sortTable(7)">Assists/Game</th>
+                    <th onclick="sortTable(8)">Total Saves</th>
+                    <th onclick="sortTable(9)">Saves/Game</th>
+                    <th onclick="sortTable(10)">Total Shots</th>
+                    <th onclick="sortTable(11)">Shots/Game</th>
+                    <th onclick="sortTable(12)">Shot Percentage</th>
+                    <th onclick="sortTable(13)">Goal Participation</th>
+                    <!-- Add more table headers for additional columns -->
+                </tr>
+            </thead>
+            <tbody id="stats-body">
+                <!-- Table rows will be dynamically generated here -->
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script>
