@@ -153,7 +153,7 @@
 
     function sortTable(columnIndex) {
         const table = document.querySelector('#stats-table');
-        const rows = Array.from(table.rows).slice(1); // Exclude header row
+        // const rows = Array.from(table.rows).slice(1); // Exclude header row
         const isNumeric = !isNaN(parseFloat(rows[0].cells[columnIndex].textContent));
         
         rows.sort((a, b) => {
