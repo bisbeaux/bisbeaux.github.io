@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PNWRL - Stats</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #03041d;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+         .top-bar {
+            background-color: #000;
+            padding: 10px 20px;
+        }
+
+        .top-bar a {
+            color: #fff;
+            text-decoration: none;
+            margin-right: 20px;
+            font-size: 1.2rem;
+        }
+
+        .top-bar a:hover {
+            text-decoration: underline;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #fff;
+            padding: 8px;
+            text-align: center;
+            cursor: pointer; /* Add cursor pointer to indicate sortable columns */
+        }
+
+        th {
+            background-color: #007bff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #0a0e3c;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Top-bar menu -->
+<div class="top-bar">
+    <a href="home.html">Home</a>
+    <a href="standings.html">Standings</a>
+    <a href="teams.html">Teams</a>
+    <a href="players.html">Players</a>
+    <a href="matches.html">Matches</a>
+    <a href="stats.html">Stats</a>
+</div>
+
+<div class="container">
+    <h1>PNWRL - Stats</h1>
+    <table id="stats-table">
+        <thead>
+            <tr>
+                <th onclick="sortTable(0)">Player</th>
+                <th onclick="sortTable(1)">Games Played</th>
+                <th onclick="sortTable(2)">Total Points</th>
+                <th onclick="sortTable(3)">Points/Game</th>
+                <th onclick="sortTable(4)">Total Goals</th>
+                <th onclick="sortTable(5)">Goals/Game</th>
+                <th onclick="sortTable(6)">Total Assists</th>
+                <th onclick="sortTable(7)">Assists/Game</th>
+                <th onclick="sortTable(8)">Total Saves</th>
+                <th onclick="sortTable(9)">Saves/Game</th>
+                <th onclick="sortTable(10)">Total Shots</th>
+                <th onclick="sortTable(11)">Shots/Game</th>
+                <th onclick="sortTable(12)">Shot Percentage</th>
+                <th onclick="sortTable(13)">Goal Participation</th>
+                <!-- Add more table headers for additional columns -->
+            </tr>
+        </thead>
+        <tbody id="stats-body">
+            <!-- Table rows will be dynamically generated here -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Fetch the CSV file
+    fetch('playerstats_20240316.csv')
+      .then(response => response.text())
+      .then(data => {
+        // Split the CSV data into an array of rows
+        const rows = data.split('\n');
+
+        // Parse and process each row
+        const processedRows = rows.map(row => {
+          // Split the row into an array of fields
+          const fields = row.split(',');
+
+          // Process each field in the row
+          const processedFields = fields.map(field => {
+            // Remove surrounding quotation marks from text-based fields
+            if (field.startsWith('"') && field.endsWith('"')) {
+              return field.substring(1, field.length - 1);
+            } else {
+              return field;
+            }
+          });
+
+          // Join the processed fields back into a CSV row
+          return processedFields.join(',');
+        });
+
+        // Join the processed rows back into a CSV string
+        const processedData = processedRows.join('\n');
+
+        // Call function to parse CSV data and populate the table
+        parseCSVAndPopulateTable(processedData);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+
+    function parseCSVAndPopulateTable(csvData) {
+        const tableBody = document.querySelector('#stats-table tbody');
+        const rows = csvData.split('\n');
+        
+        rows.forEach(row => {
+            const columns = row.split(',');
+            const tr = document.createElement('tr');
+            columns.forEach(column => {
+                const td = document.createElement('td');
+                td.textContent = column;
+                tr.appendChild(td);
+            });
+            tableBody.appendChild(tr);
+        });
+    }
+
+    function sortTable(columnIndex) {
+        const table = document.querySelector('#stats-table');
+        const rows = Array.from(table.rows).slice(1); // Exclude header row
+        const isNumeric = !isNaN(parseFloat(rows[0].cells[columnIndex].textContent));
+        
+        rows.sort((a, b) => {
+            const aValue = isNumeric ? parseFloat(a.cells[columnIndex].textContent) : a.cells[columnIndex].textContent;
+            const bValue = isNumeric ? parseFloat(b.cells[columnIndex].textContent) : b.cells[columnIndex].textContent;
+            
+            return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
+        });
+        
+        // Reverse the order if already sorted in ascending order
+        if (table.rows[1].cells[columnIndex].textContent === rows[0].cells[columnIndex].textContent) {
+            rows.reverse();
+        }
+        
+        // Re-append sorted rows to the table
+        rows.forEach(row => table.appendChild(row));
+    }
+</script>
+
+</body>
+</html>
