@@ -74,17 +74,20 @@
     <table id="stats-table">
         <thead>
             <tr>
-                <th>Player Name</th>
-                <th>Car</th>
-                <th>Score</th>
-                <th>Goals</th>
-                <th>Assists</th>
-                <th>Saves</th>
-                <th>Shots</th>
-                <th>Shooting Percentage</th>
-                <th>Demos Inflicted</th>
-                <th>Demos Taken</th>
-                <th>Notes</th>
+                <th>Player</th>
+                <th>Games Played</th>
+                <th>Total Points</th>
+                <th>Points/Game</th>
+                <th>Total Goals</th>
+                <th>Goals/Game</th>
+                <th>Total Assists</th>
+                <th>Assists/Game</th>
+                <th>Total Saves</th>
+                <th>Saves/Game</th>
+                <th>Total Shots</th>
+                <th>Shots/Game</th>
+                <th>Shot Percentage</th>
+                <th>Goal Participation</th>
                 <!-- Add more table headers for additional columns -->
             </tr>
         </thead>
@@ -96,7 +99,7 @@
 
 <script>
     // Fetch the CSV file
-    fetch('data.csv')
+    fetch('playerstats_20240316.csv')
       .then(response => response.text())
       .then(data => {
         // Split the CSV data into an array of rows
