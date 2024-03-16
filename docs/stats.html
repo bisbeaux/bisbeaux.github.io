@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PNWRL - Stats with Sorting!</title>
+    <title>PNWRL - Stats</title>
     <style>
         /* Add your CSS styles here */
         body {
@@ -15,7 +15,7 @@
         }
 
         .container {
-            max-width: 1440px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -71,74 +71,72 @@
 </div>
 
 <div class="container">
-    <h1>PNWRL - Stats with Updated Sorting!</h1>
-    <div class="center-table"> <!-- Added container for centering -->
-        <table id="stats-table">
-            <thead>
-                <tr>
-                    <th onclick="sortTable(0)">Player</th>
-                    <th onclick="sortTable(1)">Games Played</th>
-                    <th onclick="sortTable(2)">Total Points</th>
-                    <th onclick="sortTable(3)">Points/Game</th>
-                    <th onclick="sortTable(4)">Total Goals</th>
-                    <th onclick="sortTable(5)">Goals/Game</th>
-                    <th onclick="sortTable(6)">Total Assists</th>
-                    <th onclick="sortTable(7)">Assists/Game</th>
-                    <th onclick="sortTable(8)">Total Saves</th>
-                    <th onclick="sortTable(9)">Saves/Game</th>
-                    <th onclick="sortTable(10)">Total Shots</th>
-                    <th onclick="sortTable(11)">Shots/Game</th>
-                    <th onclick="sortTable(12)">Shot Percentage</th>
-                    <th onclick="sortTable(13)">Goal Participation</th>
-                    <!-- Add more table headers for additional columns -->
-                </tr>
-            </thead>
-            <tbody id="stats-body">
-                <!-- Table rows will be dynamically generated here -->
-            </tbody>
-        </table>
-    </div>
+    <h1>PNWRL - Stats with Clickable Sorting!</h1>
+    <table id="stats-table">
+        <thead>
+            <tr>
+                <th onclick="sortTable(0)">Player</th>
+                <th onclick="sortTable(1)">Games Played</th>
+                <th onclick="sortTable(2)">Total Points</th>
+                <th onclick="sortTable(3)">Points/Game</th>
+                <th onclick="sortTable(4)">Total Goals</th>
+                <th onclick="sortTable(5)">Goals/Game</th>
+                <th onclick="sortTable(6)">Total Assists</th>
+                <th onclick="sortTable(7)">Assists/Game</th>
+                <th onclick="sortTable(8)">Total Saves</th>
+                <th onclick="sortTable(9)">Saves/Game</th>
+                <th onclick="sortTable(10)">Total Shots</th>
+                <th onclick="sortTable(11)">Shots/Game</th>
+                <th onclick="sortTable(12)">Shot Percentage</th>
+                <th onclick="sortTable(13)">Goal Participation</th>
+                <!-- Add more table headers for additional columns -->
+            </tr>
+        </thead>
+        <tbody id="stats-body">
+            <!-- Table rows will be dynamically generated here -->
+        </tbody>
+    </table>
 </div>
 
 <script>
     // Fetch the CSV file
     fetch('playerstats_20240316.csv')
-        .then(response => response.text())
-        .then(data => {
-            // Split the CSV data into an array of rows
-            const rows = data.split('\n');
+      .then(response => response.text())
+      .then(data => {
+        // Split the CSV data into an array of rows
+        const rows = data.split('\n');
 
-            // Parse and process each row
-            const processedRows = rows.map(row => {
-                // Split the row into an array of fields
-                const fields = row.split(',');
+        // Parse and process each row
+        const processedRows = rows.map(row => {
+          // Split the row into an array of fields
+          const fields = row.split(',');
 
-                // Process each field in the row
-                const processedFields = fields.map(field => {
-                    // Remove surrounding quotation marks from text-based fields
-                    if (field.startsWith('"') && field.endsWith('"')) {
-                        return field.substring(1, field.length - 1);
-                    } else {
-                        return field;
-                    }
-                });
+          // Process each field in the row
+          const processedFields = fields.map(field => {
+            // Remove surrounding quotation marks from text-based fields
+            if (field.startsWith('"') && field.endsWith('"')) {
+              return field.substring(1, field.length - 1);
+            } else {
+              return field;
+            }
+          });
 
-                // Join the processed fields back into a CSV row
-                return processedFields.join(',');
-            });
+          // Join the processed fields back into a CSV row
+          return processedFields.join(',');
+        });
 
-            // Join the processed rows back into a CSV string
-            const processedData = processedRows.join('\n');
+        // Join the processed rows back into a CSV string
+        const processedData = processedRows.join('\n');
 
-            // Call function to parse CSV data and populate the table
-            parseCSVAndPopulateTable(processedData);
-        })
-        .catch(error => console.error('Error fetching data:', error));
+        // Call function to parse CSV data and populate the table
+        parseCSVAndPopulateTable(processedData);
+      })
+      .catch(error => console.error('Error fetching data:', error));
 
     function parseCSVAndPopulateTable(csvData) {
         const tableBody = document.querySelector('#stats-table tbody');
         const rows = csvData.split('\n');
-
+        
         rows.forEach(row => {
             const columns = row.split(',');
             const tr = document.createElement('tr');
@@ -151,31 +149,25 @@
         });
     }
 
-function sortTable(columnIndex) {
-    const table = document.querySelector('#stats-table');
-    const tbody = table.querySelector('tbody');
-    const isNumeric = !isNaN(parseFloat(tbody.rows[1].cells[columnIndex].textContent));
-
-    const rows = Array.from(tbody.rows).slice(1); // Skip first (empty) row
-
-    rows.sort((a, b) => {
-        const aValue = isNumeric ? parseFloat(a.cells[columnIndex].textContent) : a.cells[columnIndex].textContent;
-        const bValue = isNumeric ? parseFloat(b.cells[columnIndex].textContent) : b.cells[columnIndex].textContent;
-
-        if (aValue < bValue) return -1;
-        if (aValue > bValue) return 1;
-        return 0;
-    });
-
-    // Reverse the order if already sorted in ascending order
-    if (tbody.rows[1].cells[columnIndex].textContent === rows[0].cells[columnIndex].textContent) {
-        rows.reverse();
-    }
-
-    // Re-append sorted rows to the table
-    tbody.innerHTML = ''; // Clear existing rows
-    rows.forEach(row => tbody.appendChild(row));
-}
+    function sortTable(columnIndex) {
+        const table = document.querySelector('#stats-table');
+        const rows = Array.from(table.rows).slice(1); // Exclude header row
+        const isNumeric = !isNaN(parseFloat(rows[0].cells[columnIndex].textContent));
+        
+        rows.sort((a, b) => {
+            const aValue = isNumeric ? parseFloat(a.cells[columnIndex].textContent) : a.cells[columnIndex].textContent;
+            const bValue = isNumeric ? parseFloat(b.cells[columnIndex].textContent) : b.cells[columnIndex].textContent;
+            
+            return aValue > bValue ? 1 : aValue < bValue ? -1 : 0;
+        });
+        
+        // Reverse the order if already sorted in ascending order
+        if (table.rows[1].cells[columnIndex].textContent === rows[0].cells[columnIndex].textContent) {
+            rows.reverse();
+        }
+        
+        // Re-append sorted rows to the table
+        rows.forEach(row => table.appendChild(row));
     }
 </script>
 
