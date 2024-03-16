@@ -151,29 +151,31 @@
         });
     }
 
-    function sortTable(columnIndex) {
-        const table = document.querySelector('#stats-table');
-        const tbody = table.querySelector('tbody');
-        const isNumeric = !isNaN(parseFloat(tbody.rows[0].cells[columnIndex].textContent));
+function sortTable(columnIndex) {
+    const table = document.querySelector('#stats-table');
+    const tbody = table.querySelector('tbody');
+    const isNumeric = !isNaN(parseFloat(tbody.rows[1].cells[columnIndex].textContent));
 
-        const rows = Array.from(tbody.rows).slice(); // Copy rows for sorting
-        
-        rows.sort((a, b) => {
-            const aValue = isNumeric ? parseFloat(a.cells[columnIndex].textContent) : a.cells[columnIndex].textContent;
-            const bValue = isNumeric ? parseFloat(b.cells[columnIndex].textContent) : b.cells[columnIndex].textContent;
+    const rows = Array.from(tbody.rows).slice(1); // Skip first (empty) row
 
-            if (aValue < bValue) return -1;
-            if (aValue > bValue) return 1;
-            return 0;
-        });
+    rows.sort((a, b) => {
+        const aValue = isNumeric ? parseFloat(a.cells[columnIndex].textContent) : a.cells[columnIndex].textContent;
+        const bValue = isNumeric ? parseFloat(b.cells[columnIndex].textContent) : b.cells[columnIndex].textContent;
 
-        // Reverse the order if already sorted in ascending order
-        if (tbody.rows[0].cells[columnIndex].textContent === rows[0].cells[columnIndex].textContent) {
-            rows.reverse();
-        }
+        if (aValue < bValue) return -1;
+        if (aValue > bValue) return 1;
+        return 0;
+    });
 
-        // Re-append sorted rows to the table
-        rows.forEach(row => tbody.appendChild(row));
+    // Reverse the order if already sorted in ascending order
+    if (tbody.rows[1].cells[columnIndex].textContent === rows[0].cells[columnIndex].textContent) {
+        rows.reverse();
+    }
+
+    // Re-append sorted rows to the table
+    tbody.innerHTML = ''; // Clear existing rows
+    rows.forEach(row => tbody.appendChild(row));
+}
     }
 </script>
 
