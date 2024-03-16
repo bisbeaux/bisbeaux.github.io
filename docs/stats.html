@@ -101,12 +101,14 @@
 </div>
 
 <script>
+    let rows = []; // Define rows globally
+
     // Fetch the CSV file
     fetch('playerstats_20240316.csv')
       .then(response => response.text())
       .then(data => {
         // Split the CSV data into an array of rows
-        const rows = data.split('\n');
+        rows = data.split('\n');
 
         // Parse and process each row
         const processedRows = rows.map(row => {
@@ -153,7 +155,6 @@
 
     function sortTable(columnIndex) {
         const table = document.querySelector('#stats-table');
-        // const rows = Array.from(table.rows).slice(1); // Exclude header row
         const isNumeric = !isNaN(parseFloat(rows[0].cells[columnIndex].textContent));
         
         rows.sort((a, b) => {
@@ -169,7 +170,9 @@
         }
         
         // Re-append sorted rows to the table
-        rows.forEach(row => table.appendChild(row));
+        const tableBody = document.querySelector('#stats-table tbody');
+        tableBody.innerHTML = ''; // Clear existing rows
+        rows.forEach(row => tableBody.appendChild(row));
     }
 </script>
 
