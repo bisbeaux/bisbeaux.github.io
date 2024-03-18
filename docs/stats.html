@@ -89,6 +89,7 @@
         });
     
         function sortTable(columnIndex) {
+            console.log('Sorting table...');
             var table, rows, switching, i, x, y, shouldSwitch;
             table = document.getElementById("dataTable");
             switching = true;
@@ -109,7 +110,9 @@
                     switching = true;
                 }
             }
+            console.log('Table sorted.');
         }
+
     </script>    
 </head>
 <body>
