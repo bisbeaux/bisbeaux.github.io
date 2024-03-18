@@ -95,38 +95,54 @@
             var table, rows, switching, i, x, y, shouldSwitch;
             table = document.getElementById("dataTable");
             switching = true;
-            while (switching) {
-                switching = false;
-                rows = table.rows;
-                for (i = 1; i < (rows.length - 1); i++) {
-                    shouldSwitch = false;
-                    x = rows[i].getElementsByTagName("td")[columnIndex];
-                    y = rows[i + 1].getElementsByTagName("td")[columnIndex];
-                    
-                    // Check the current sorting state for the column
-                    var sortOrder = sortStates[columnIndex] || 'asc';
-                    
-                    if (sortOrder === 'asc') {
-                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                            shouldSwitch = true;
-                            break;
-                        }
-                    } else if (sortOrder === 'desc') {
-                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                            shouldSwitch = true;
-                            break;
+            var iteration = 0;
+
+            // Start the loop
+            function nextIteration() {
+                setTimeout(function() {
+                    switching = false;
+                    rows = table.rows;
+                    for (i = 1; i < (rows.length - 1); i++) {
+                        shouldSwitch = false;
+                        x = rows[i].getElementsByTagName("td")[columnIndex];
+                        y = rows[i + 1].getElementsByTagName("td")[columnIndex];
+
+                        // Check the current sorting state for the column
+                        var sortOrder = sortStates[columnIndex] || 'asc';
+
+                        if (sortOrder === 'asc') {
+                            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                                shouldSwitch = true;
+                                break;
+                            }
+                        } else if (sortOrder === 'desc') {
+                            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                                shouldSwitch = true;
+                                break;
+                            }
                         }
                     }
-                }
-                if (shouldSwitch) {
-                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                    switching = true;
-                    // Toggle sorting state for the column
-                    sortStates[columnIndex] = sortOrder === 'asc' ? 'desc' : null;
-                }
+                    if (shouldSwitch) {
+                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                        switching = true;
+                        // Toggle sorting state for the column
+                        sortStates[columnIndex] = sortOrder === 'asc' ? 'desc' : null;
+                    }
+
+                    // Check if another iteration is needed
+                    if (switching && iteration < rows.length - 1) {
+                        iteration++;
+                        nextIteration();
+                    } else {
+                        console.log('Table sorted.');
+                    }
+                }, 0);
             }
-            console.log('Table sorted.');
+
+            // Start the first iteration
+            nextIteration();
         }
+
 
     </script>    
 </head>
