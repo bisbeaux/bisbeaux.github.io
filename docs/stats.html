@@ -92,7 +92,7 @@
 
         function sortTable(columnIndex) {
             console.log('Sorting table...');
-            var table, rows, switching, i, x, y, shouldSwitch;
+            var table, rows, switching, i, shouldSwitch;
             table = document.getElementById("dataTable");
             switching = true;
             var iteration = 0;
@@ -104,21 +104,28 @@
                     rows = table.rows;
                     for (i = 1; i < (rows.length - 1); i++) {
                         shouldSwitch = false;
-                        x = rows[i].getElementsByTagName("td")[columnIndex];
-                        y = rows[i + 1].getElementsByTagName("td")[columnIndex];
+                        var x = rows[i].getElementsByTagName("td")[columnIndex].textContent.trim();
+                        var y = rows[i + 1].getElementsByTagName("td")[columnIndex].textContent.trim();
 
-                        console.log('x:', x.innerHTML.toLowerCase(), 'y:', y.innerHTML.toLowerCase());
+                        // Check if the values are numeric
+                        var isNumeric = !isNaN(x) && !isNaN(y);
+
+                        // Compare values based on whether they are numeric or not
+                        if (isNumeric) {
+                            x = parseFloat(x);
+                            y = parseFloat(y);
+                        }
 
                         // Check the current sorting state for the column
                         var sortOrder = sortStates[columnIndex] || 'asc';
 
                         if (sortOrder === 'asc') {
-                            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            if ((isNumeric && x > y) || (!isNumeric && x.toLowerCase() > y.toLowerCase())) {
                                 shouldSwitch = true;
                                 break;
                             }
                         } else if (sortOrder === 'desc') {
-                            if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            if ((isNumeric && x < y) || (!isNumeric && x.toLowerCase() < y.toLowerCase())) {
                                 shouldSwitch = true;
                                 break;
                             }
