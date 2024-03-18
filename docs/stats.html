@@ -105,7 +105,30 @@
         </tr>
     </thead>
     <tbody>
-        <!-- Rows will be populated from the CSV file -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var tableBody = document.querySelector('#dataTable tbody');
+                
+                // Replace 'data.csv' with the path to your CSV file
+                fetch('statsTest.csv')
+                    .then(response => response.text())
+                    .then(data => {
+                        var rows = data.trim().split('\n');
+                        rows.forEach(row => {
+                            var cells = row.split(',');
+                            var tr = document.createElement('tr');
+                            cells.forEach(cell => {
+                                var td = document.createElement('td');
+                                td.textContent = cell;
+                                tr.appendChild(td);
+                            });
+                            tableBody.appendChild(tr);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching the CSV file:', error));
+            });
+        </script>
+        
     </tbody>
 </table>
 
