@@ -88,6 +88,8 @@
                 .catch(error => console.error('Error fetching the CSV file:', error));
         });
     
+        var sortStates = []; // Array to store current sorting state for each column
+
         function sortTable(columnIndex) {
             console.log('Sorting table...');
             var table, rows, switching, i, x, y, shouldSwitch;
@@ -100,14 +102,27 @@
                     shouldSwitch = false;
                     x = rows[i].getElementsByTagName("td")[columnIndex];
                     y = rows[i + 1].getElementsByTagName("td")[columnIndex];
-                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                        shouldSwitch = true;
-                        break;
+                    
+                    // Check the current sorting state for the column
+                    var sortOrder = sortStates[columnIndex] || 'asc';
+                    
+                    if (sortOrder === 'asc') {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (sortOrder === 'desc') {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
                     }
                 }
                 if (shouldSwitch) {
                     rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
                     switching = true;
+                    // Toggle sorting state for the column
+                    sortStates[columnIndex] = sortOrder === 'asc' ? 'desc' : null;
                 }
             }
             console.log('Table sorted.');
