@@ -107,6 +107,8 @@
                         x = rows[i].getElementsByTagName("td")[columnIndex];
                         y = rows[i + 1].getElementsByTagName("td")[columnIndex];
 
+                        console.log('x:', x.innerHTML.toLowerCase(), 'y:', y.innerHTML.toLowerCase());
+
                         // Check the current sorting state for the column
                         var sortOrder = sortStates[columnIndex] || 'asc';
 
@@ -142,7 +144,6 @@
             // Start the first iteration
             nextIteration();
         }
-
 
     </script>    
 </head>
