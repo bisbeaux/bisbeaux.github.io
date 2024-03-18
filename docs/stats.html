@@ -1,105 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sortable Table</title>
-<style>
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
-    th, td {
-        padding: 8px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
-    th:hover {
-        cursor: pointer;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Stats</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2e225a; /* Dark purple */
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Top-bar menu styles */
+        .top-bar {
+            background-color: #000; /* Background color for the top-bar */
+            padding: 10px 20px; /* Add padding to top-bar */
+        }
+
+        .top-bar a {
+            color: #fff; /* Text color for links in the top-bar */
+            text-decoration: none;
+            margin-right: 20px; /* Add spacing between menu items */
+            font-size: 1.2rem; /* Font size for menu items */
+        }
+
+        .top-bar a:hover {
+            text-decoration: underline; /* Add underline on hover */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #00a5ff; /* Light blue */
+            text-align: center;
+        }
+
+        /* Standings table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            cursor: pointer;
+            background-color: #4b0082; /* Indigo */
+        }
+
+        tr:nth-child(even) {
+            background-color: #473b72; /* Dark blue */
+        }
+
+        tr:hover {
+            background-color: #1e90ff; /* Lighter blue on hover */
+        }
+    </style>
 </head>
 <body>
 
-<table id="statsTable">
-    <thead>
-        <tr>
-            <th onclick="sortTable(0)">Player</th>
-            <th onclick="sortTable(1)">Games Played</th>
-            <th onclick="sortTable(2)">Total Points</th>
-            <th onclick="sortTable(3)">Points/Game</th>
-            <th onclick="sortTable(4)">Total Goals</th>
-            <th onclick="sortTable(5)">Goals/Game</th>
-            <th onclick="sortTable(6)">Total Assists</th>
-            <th onclick="sortTable(7)">Assists/Game</th>
-            <th onclick="sortTable(8)">Total Saves</th>
-            <th onclick="sortTable(9)">Saves/Game</th>
-            <th onclick="sortTable(10)">Total Shots</th>
-            <th onclick="sortTable(11)">Shots/Game</th>
-            <th onclick="sortTable(12)">Shot Percentage</th>
-            <th onclick="sortTable(13)">Goal Participation</th>
-            <th onclick="sortTable(14)">Octane Rating</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- Table body will be populated by JavaScript -->
-    </tbody>
-</table>
+    <!-- Top-bar menu -->
+    <div class="top-bar">
+        <a href="home.html">Home</a>
+        <a href="standings.html">Standings</a>
+        <a href="teams.html">Teams</a>
+        <a href="players.html">Players</a>
+        <a href="stats.html">Player Stats</a>
+    </div>
 
-<script>
-    // Function to fetch data from CSV file
-    function fetchData(callback) {
-        fetch('statsTest.csv')
-            .then(response => response.text())
-            .then(data => {
-                const rows = data.trim().split('\n').map(row => row.split(','));
-                // Ignore the first row (header)
-                rows.shift();
-                callback(rows);
+    <table id="statsTable">
+        <thead>
+            <tr>
+                <th onclick="sortTable(0)">Player</th>
+                <th onclick="sortTable(1)">Games Played</th>
+                <th onclick="sortTable(2)">Total Points</th>
+                <th onclick="sortTable(3)">Points/Game</th>
+                <th onclick="sortTable(4)">Total Goals</th>
+                <th onclick="sortTable(5)">Goals/Game</th>
+                <th onclick="sortTable(6)">Total Assists</th>
+                <th onclick="sortTable(7)">Assists/Game</th>
+                <th onclick="sortTable(8)">Total Saves</th>
+                <th onclick="sortTable(9)">Saves/Game</th>
+                <th onclick="sortTable(10)">Total Shots</th>
+                <th onclick="sortTable(11)">Shots/Game</th>
+                <th onclick="sortTable(12)">Shot Percentage</th>
+                <th onclick="sortTable(13)">Goal Participation</th>
+                <th onclick="sortTable(14)">Octane Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Table body will be populated by JavaScript -->
+        </tbody>
+    </table>
+
+    <script>
+        // Function to fetch data from CSV file
+        function fetchData(callback) {
+            fetch('statsTest.csv')
+                .then(response => response.text())
+                .then(data => {
+                    const rows = data.trim().split('\n').map(row => row.split(','));
+                    // Ignore the first row (header)
+                    rows.shift();
+                    callback(rows);
+                });
+        }
+
+        // Function to create table rows
+        function createTableRows(data) {
+            const tbody = document.querySelector('#statsTable tbody');
+            tbody.innerHTML = '';
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                row.forEach(cell => {
+                    const td = document.createElement('td');
+                    td.textContent = cell;
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
             });
-    }
+        }
 
-    // Function to create table rows
-    function createTableRows(data) {
-        const tbody = document.querySelector('#statsTable tbody');
-        tbody.innerHTML = '';
-        data.forEach(row => {
-            const tr = document.createElement('tr');
-            row.forEach(cell => {
-                const td = document.createElement('td');
-                td.textContent = cell;
-                tr.appendChild(td);
+        // Function to sort the table
+        function sortTable(columnIndex) {
+            const table = document.querySelector('#statsTable');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            const asc = table.dataset.asc === 'true';
+
+            rows.sort((a, b) => {
+                const aVal = a.cells[columnIndex].textContent;
+                const bVal = b.cells[columnIndex].textContent;
+                if (columnIndex === 12 || columnIndex === 13) { // Handle sorting for percentage values
+                    const aNum = parseFloat(aVal.replace('%', ''));
+                    const bNum = parseFloat(bVal.replace('%', ''));
+                    return asc ? aNum - bNum : bNum - aNum;
+                } else { // Handle sorting for other numerical values
+                    return asc ? Number(aVal) - Number(bVal) : Number(bVal) - Number(aVal);
+                }
             });
-            tbody.appendChild(tr);
-        });
-    }
 
-    // Function to sort the table
-    function sortTable(columnIndex) {
-        const table = document.querySelector('#statsTable');
-        const tbody = table.querySelector('tbody');
-        const rows = Array.from(tbody.querySelectorAll('tr'));
-        const asc = table.dataset.asc === 'true';
+            table.dataset.asc = !asc;
+            rows.forEach(row => tbody.appendChild(row));
+        }
 
-        rows.sort((a, b) => {
-            const aVal = a.cells[columnIndex].textContent;
-            const bVal = b.cells[columnIndex].textContent;
-            if (columnIndex === 12 || columnIndex === 13) { // Handle sorting for percentage values
-                const aNum = parseFloat(aVal.replace('%', ''));
-                const bNum = parseFloat(bVal.replace('%', ''));
-                return asc ? aNum - bNum : bNum - aNum;
-            } else { // Handle sorting for other numerical values
-                return asc ? Number(aVal) - Number(bVal) : Number(bVal) - Number(aVal);
-            }
-        });
-
-        table.dataset.asc = !asc;
-        rows.forEach(row => tbody.appendChild(row));
-    }
-
-    // Initial function call to fetch data and create table
-    fetchData(createTableRows);
-</script>
+        // Initial function call to fetch data and create table
+        fetchData(createTableRows);
+    </script>
 
 </body>
 </html>
