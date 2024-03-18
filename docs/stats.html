@@ -49,15 +49,45 @@
             padding: 8px;
             text-align: left;
         }
-        th {
-            background-color: #f2f2f2;
-        }
         th.sortable:hover {
             cursor: pointer;
             background-color: #ddd;
         }
     </style>
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var tableBody = document.querySelector('#dataTable tbody');
+            var tableHeadersRow = document.querySelector('#dataTable thead tr');
+    
+            // Replace 'statsTest.csv' with the path to your CSV file
+            fetch('statsTest.csv')
+                .then(response => response.text())
+                .then(data => {
+                    var rows = data.trim().split('\n');
+                    var headers = rows.shift().split(',');
+                    headers.forEach(header => {
+                        var th = document.createElement('th');
+                        th.textContent = header;
+                        th.classList.add('sortable');
+                        th.addEventListener('click', function () {
+                            sortTable(headers.indexOf(header));
+                        });
+                        tableHeadersRow.appendChild(th);
+                    });
+                    rows.forEach(row => {
+                        var cells = row.split(',');
+                        var tr = document.createElement('tr');
+                        cells.forEach(cell => {
+                            var td = document.createElement('td');
+                            td.textContent = cell;
+                            tr.appendChild(td);
+                        });
+                        tableBody.appendChild(tr);
+                    });
+                })
+                .catch(error => console.error('Error fetching the CSV file:', error));
+        });
+    
         function sortTable(columnIndex) {
             var table, rows, switching, i, x, y, shouldSwitch;
             table = document.getElementById("dataTable");
@@ -80,7 +110,7 @@
                 }
             }
         }
-    </script>
+    </script>    
 </head>
 <body>
 
@@ -98,37 +128,10 @@
 
 <table id="dataTable">
     <thead>
-        <tr>
-            <th class="sortable" onclick="sortTable(0)">Column 1</th>
-            <th class="sortable" onclick="sortTable(1)">Column 2</th>
-            <th class="sortable" onclick="sortTable(2)">Column 3</th>
-        </tr>
+        <tr></tr> <!-- Table headers will be populated dynamically -->
     </thead>
     <tbody>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                var tableBody = document.querySelector('#dataTable tbody');
-                
-                // Replace 'data.csv' with the path to your CSV file
-                fetch('statsTest.csv')
-                    .then(response => response.text())
-                    .then(data => {
-                        var rows = data.trim().split('\n');
-                        rows.forEach(row => {
-                            var cells = row.split(',');
-                            var tr = document.createElement('tr');
-                            cells.forEach(cell => {
-                                var td = document.createElement('td');
-                                td.textContent = cell;
-                                tr.appendChild(td);
-                            });
-                            tableBody.appendChild(tr);
-                        });
-                    })
-                    .catch(error => console.error('Error fetching the CSV file:', error));
-            });
-        </script>
-        
+        <!-- Rows will be populated from the CSV file -->
     </tbody>
 </table>
 
