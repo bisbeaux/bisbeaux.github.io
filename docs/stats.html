@@ -102,7 +102,7 @@
                 setTimeout(function() {
                     switching = false;
                     rows = table.rows;
-                    for (i = 1; i < (rows.length - 1); i++) {
+                    for (i = 0; i < (rows.length - 1); i++) {
                         shouldSwitch = false;
                         var x = rows[i].getElementsByTagName("td")[columnIndex].textContent.trim();
                         var y = rows[i + 1].getElementsByTagName("td")[columnIndex].textContent.trim();
