@@ -5,58 +5,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PNWRL - Homepage</title>
     <style>
-        /* Add your CSS styles here */
+        /* Reset default margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Global styles */
         body {
             font-family: Arial, sans-serif;
-            background-color: #03041d; /* Set background color */
+            background-color: #2e225a; /* Dark purple */
+            color: #fff;
             margin: 0;
             padding: 0;
         }
-
-        /* Top-bar menu styles */
-        .top-bar {
-            background-color: #000; /* Background color for the top-bar */
-            padding: 10px 20px; /* Add padding to top-bar */
-        }
-
-        .top-bar a {
-            color: #fff; /* Text color for links in the top-bar */
-            text-decoration: none;
-            margin-right: 20px; /* Add spacing between menu items */
-            font-size: 1.2rem; /* Font size for menu items */
-        }
-
-        .top-bar a:hover {
-            text-decoration: underline; /* Add underline on hover */
-        }
-
-        /* Main content styles */
-        .content {
+     
+        /* Standings table styles */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
             padding: 20px;
-            color: #fff; /* Text color for main content */
         }
 
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+            color: #ffffff;
+            padding: 5%;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            cursor: pointer;
+            background-color: #4b0082; /* Indigo */
+        }
+
+        th.sort-asc::after,
+        th.sort-desc::after {
+            content: '▼';
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        th.sort-asc::after {
+            content: '▲';
+        }
+
+        tr:nth-child(even) {
+            background-color: #473b72; /* Dark blue */
+        }
+
+        tr:hover {
+            background-color: #1e90ff; /* Lighter blue on hover */
         }
     </style>
 </head>
 <body>
 
-<!-- Top-bar menu -->
-<div class="top-bar">
-    <a href="home.html">Home</a>
-    <a href="standings.html">Standings</a>
-    <a href="teams.html">Teams</a>
-    <a href="stats.html">Player Stats</a>
-</div>
+<div id="nav-placeholder"></div>
+
+    <!-- Include the top-bar -->
+    <!-- <iframe src="topBar.html" allow="fullscreen" style="border: none; width: 100%; height: 100%; display: flex;"></iframe> -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script>
+        $.get("topBar.html", function(data){
+            $("#nav-placeholder").replaceWith(data);
+        });
+    </script>
 
 <!-- Main content -->
 <div class="content">
     <h1>PNWRL - Pacific Northwest Rocket League</h1>
-    <p>Track all the latest updates, statistics, teams, players, and standings from the PNWRL.</p>
+    <!-- <p>An amateur league with a professional feel started by a community of friends near Portland Oregon in early 2021. All ball chasers, boost stealers, and quick chatters are welcome! Feel free to join in on anything that's going on and meet new friends. Treat others the way you'd want to be treated and you'll have a grand time.</p> -->
     <!-- Add more content here -->
+</div>
+
+<div class="container">
+    <p>An amateur league with a professional feel started by a community of friends near Portland Oregon in early 2021. All ball chasers, boost stealers, and quick chatters are welcome! Feel free to join in on anything that's going on and meet new friends. Treat others the way you'd want to be treated and you'll have a grand time.</p>
 </div>
 
 </body>

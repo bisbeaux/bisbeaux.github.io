@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Split 1 - Week 1 Matches</title>
+    <style>
+        /* Reset default margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2e225a; /* Dark purple */
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Main content */
+        .content {
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        /* Key dates container */
+        .weeks {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 10px;
+            background-color: #473b72; /* Dark blue */
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Key date items */
+        .week {
+            /* margin-bottom: 20px; */
+            border: 1px solid #fff;
+            border-radius: 5px;
+        }
+
+        .dates {
+            color: #ffffff;
+            font-size: 22px;
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #fff;
+            border-radius: 5px;
+            background-color: #4b0082; /* Indigo */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            cursor: pointer;
+            background-color: #4b0082; /* Indigo */
+        }
+
+        tr:nth-child(even) {
+            background-color: #473b72; /* Dark blue */
+        }
+
+        tr:hover {
+            background-color: #1e90ff; /* Lighter blue on hover */
+        }
+    </style>
+</head>
+<body>
+
+<div id="nav-placeholder"></div>
+
+    <!-- Include the top-bar -->
+    <!-- <iframe src="topBar.html" allow="fullscreen" style="border: none; width: 100%; height: 100%; display: flex;"></iframe> -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script>
+        $.get("topBar.html", function(data){
+            $("#nav-placeholder").replaceWith(data);
+        });
+    </script>
+
+<!-- Main content -->
+<div class="content">
+    <h1>Split 1 - Week 1 Matches</h1>
+</div>
+
+<!-- Split 1 schedule -->
+<div class="weeks">
+    <div class="week">
+        <p class="dates">Week 1: March 11th - 17th</p>
+        <table id="week1Table">
+            <tbody>
+                <!-- Manually populate the table rows -->
+                <tr> 
+                    <td>Emerald City RC vs SuperSonicDough</td> 
+               </tr>
+               <tr> 
+                    <td>Rip and the Sharkettes vs Brue Team</td> 
+               </tr>
+               <tr> 
+                    <td>Unfit for Orbit vs Jolly Poggers</td> 
+               </tr>
+               <tr> 
+                    <td>Scapegoats vs Little Giants</td> 
+               </tr>
+               <tr> 
+                    <td>Discount Boost vs HalftimeTurnup</td> 
+               </tr>
+               <tr> 
+                    <td>Slightly Poshed vs TARL</td> 
+               </tr>
+               <tr> 
+                    <td>Spectrum vs [Redacted]</td> 
+               </tr>
+               <tr> 
+                    <td>Emerald City RC vs Discount Boost</td> 
+               </tr>
+               <tr> 
+                    <td>Jolly Poggers vs Slightly Poshed</td> 
+               </tr>
+               <tr> 
+                    <td>TARL vs Little Giants</td> 
+               </tr>
+               <tr> 
+                    <td>[Redacted] vs Scapegoats</td> 
+               </tr>
+               <tr> 
+                    <td>HalftimeTurnup vs Unfit for Orbit</td> 
+               </tr>
+               <tr> 
+                    <td>Brue Team vs Spectrum</td> 
+               </tr>
+               <tr> 
+                    <td>SuperSonicDough vs Rip and the Sharkettes</td> 
+               </tr>
+            </tbody>
+            </table>
+    </div>
+</div>
+
+</body>
+</html>

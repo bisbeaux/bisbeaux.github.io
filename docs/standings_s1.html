@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Split 1 Standings</title>
+  <style>
+        /* Reset default margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2e225a; /* Dark purple */
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Dropdown styles */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #000;
+            min-width: 160px;
+            z-index: 1;
+            padding: 10px;
+        }
+
+        .dropdown-content a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            margin-top: 5px;
+        }
+
+        .dropdown-content a:hover {
+            text-decoration: underline;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+      
+        /* Standings table styles */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #ffffff;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            cursor: pointer;
+            background-color: #4b0082; /* Indigo */
+        }
+
+        th.sort-asc::after,
+        th.sort-desc::after {
+            content: '▼';
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        th.sort-asc::after {
+            content: '▲';
+        }
+
+        tr:nth-child(even) {
+            background-color: #473b72; /* Dark blue */
+        }
+
+        tr:hover {
+            background-color: #1e90ff; /* Lighter blue on hover */
+        }
+    </style>
+</head>
+<body>
+
+<div id="nav-placeholder"></div>
+
+    <!-- Include the top-bar -->
+    <!-- <iframe src="topBar.html" allow="fullscreen" style="border: none; width: 100%; height: 100%; display: flex;"></iframe> -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script>
+        $.get("topBar.html", function(data){
+            $("#nav-placeholder").replaceWith(data);
+        });
+    </script>
+
+<div class="container">
+    <h1>Split 1 Standings</h1>
+    <table id="csvTable">
+    <thead>
+        <tr>
+        <th onclick="sortTable(0)">Team Name</th>
+        <th onclick="sortTable(1)">Matches Played</th>
+        <th onclick="sortTable(2)">Points Earned</th>
+        <th onclick="sortTable(3)">Match Wins</th>
+        <th onclick="sortTable(4)">Match Losses</th>
+        <th onclick="sortTable(5)">Win %</th>
+        <th onclick="sortTable(6)">Games Won</th>
+        <th onclick="sortTable(7)">Games Lost</th>
+        <th onclick="sortTable(8)">Goals</th>
+        <th onclick="sortTable(9)">Goals Allowed</th>
+        <th onclick="sortTable(10)">+/-</th>
+        <!-- Add more headers if needed -->
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Table content will be populated dynamically -->
+    </tbody>
+    </table>
+
+    <script>
+        // Object to keep track of sorting order for each column
+        const sortOrders = {};
+        let currentColumnIndex = -1; // Track the currently sorted column index
+        let currentAsc = false; // Track the current sorting order (true for ascending, false for descending)
+    
+        window.addEventListener('DOMContentLoaded', (event) => {
+            // Fetch the CSV file
+            fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTyJGJrzYRXrc2XDwvo0PfXnlg88PGBl_FY-gfSurYUjqFExE36mXU5ZruQxfTJgOYGdAU2aCusmnbV/pub?gid=323135228&single=true&output=csv')
+                .then(response => response.text())
+                .then(csvData => {
+                    // Parse CSV data
+                    const rows = csvData.split('\n');
+                    const tableBody = document.querySelector('#csvTable tbody');
+    
+                    // Clear existing table content
+                    tableBody.innerHTML = '';
+    
+                    // Specify which columns to display by column number (0-indexed)
+                    const displayColumns = [11,12,13,14,15,16,17,18,19,20,21]; // Adjust these to your desired column numbers
+    
+                    // Populate table rows, limiting to 15 rows
+                    rows.slice(1, 15).forEach(rowData => {
+                        const row = document.createElement('tr');
+                        const cells = rowData.split(',');
+                        displayColumns.forEach(index => {
+                            if (index >= 0 && index < cells.length) { // Check if column index is within bounds
+                                const cell = document.createElement('td');
+                                cell.textContent = cells[index].trim();
+                                row.appendChild(cell);
+                            }
+                        });
+                        tableBody.appendChild(row);
+                    });
+    
+                    // Default sorting on column #2 (Points Earned) in descending order
+                    sortTable(2); // This will sort by Points Earned column in descending order
+                })
+                .catch(error => {
+                    console.error('Error fetching CSV:', error);
+                });
+        });
+    
+        function sortTable(columnIndex) {
+            const table = document.getElementById('csvTable');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            const asc = columnIndex === currentColumnIndex ? !currentAsc : false; // Toggle sorting order if it's the same column
+    
+            const sortMethod = getSortMethod(columnIndex);
+    
+            rows.sort((a, b) => {
+                const aVal = a.querySelectorAll('td')[columnIndex].textContent.trim();
+                const bVal = b.querySelectorAll('td')[columnIndex].textContent.trim();
+    
+                if (columnIndex === 0) { // Handle sorting for Player column (string values)
+                    return asc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+                } else if (columnIndex === 14) { // Handle sorting for octane rating
+                    return asc ? parseFloat(aVal) - parseFloat(bVal) : parseFloat(bVal) - parseFloat(aVal);
+                } else { // Handle sorting for other numerical values
+                    return asc ? Number(aVal) - Number(bVal) : Number(bVal) - Number(aVal);
+                }
+            });
+    
+            rows.forEach(row => tbody.appendChild(row));
+    
+            // Clear sort indicators
+            table.querySelectorAll('th').forEach(th => th.classList.remove('sort-asc', 'sort-desc'));
+    
+            // Set sort indicator on the clicked column
+            const th = table.querySelector(`th:nth-child(${columnIndex + 1})`);
+            th.classList.add(asc ? 'sort-asc' : 'sort-desc');
+    
+            // Update current column index and sorting order
+            currentColumnIndex = columnIndex;
+            currentAsc = asc;
+        }
+    
+        function getSortMethod(columnIndex) {
+            // Add logic to determine sort method for each column based on columnIndex
+            // For simplicity, we'll just return 'string' for all columns in this example
+            return 'string';
+        }
+    </script>    
+    
+
+</div>
+
+</body>
+</html>

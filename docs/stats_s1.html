@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Stats - Split 1</title>
+  <style>
+        /* Reset default margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2e225a; /* Dark purple */
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+      
+        /* Standings table styles */
+        .container {
+            width: auto;
+            margin: 10px;
+            padding: 20px 5px;
+        }
+
+        h1 {
+            color: #ffffff;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgb(85, 85, 85);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            cursor: pointer;
+            background-color: #4b0082; /* Indigo */
+        }
+
+        th.sort-asc::after,
+        th.sort-desc::after {
+            content: '▼';
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        th.sort-asc::after {
+            content: '▲';
+        }
+
+        tr:nth-child(even) {
+            background-color: #473b72; /* Dark blue */
+        }
+
+        tr:hover {
+            background-color: #1e90ff; /* Lighter blue on hover */
+        }
+    </style>
+</head>
+<body>
+
+<div id="nav-placeholder"></div>
+
+    <!-- Include the top-bar -->
+    <!-- <iframe src="topBar.html" allow="fullscreen" style="border: none; width: 100%; height: 100%; display: flex;"></iframe> -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
+    <script>
+        $.get("topBar.html", function(data){
+            $("#nav-placeholder").replaceWith(data);
+        });
+    </script>
+
+<div class="container">
+    <h1>Split 1 Player Stats</h1>    
+    <table id="csvTable">
+    <thead>
+        <tr>
+        <th onclick="sortTable(0)">Player</th>
+        <th onclick="sortTable(1)">Games Played</th>
+        <th onclick="sortTable(2)">Total Points</th>
+        <th onclick="sortTable(3)">Points/Game</th>
+        <th onclick="sortTable(4)">Total Goals</th>
+        <th onclick="sortTable(5)">Goals/Game</th>
+        <th onclick="sortTable(6)">Total Assists</th>
+        <th onclick="sortTable(7)">Assists/Game</th>
+        <th onclick="sortTable(8)">Total Saves</th>
+        <th onclick="sortTable(9)">Saves/Game</th>
+        <th onclick="sortTable(10)">Total Shots</th>
+        <th onclick="sortTable(11)">Shots/Game</th>
+        <th onclick="sortTable(12)">Shot Percentage</th>
+        <th onclick="sortTable(13)">Goal Participation</th>
+        <th onclick="sortTable(14)">Octane Rating</th>      
+        <!-- Add more headers if needed -->
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Table content will be populated dynamically -->
+    </tbody>
+    </table>
+
+    <script>
+        // Object to keep track of sorting order for each column
+        const sortOrders = {};
+    
+        window.addEventListener('DOMContentLoaded', (event) => {
+        // Fetch the CSV file
+        fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTyJGJrzYRXrc2XDwvo0PfXnlg88PGBl_FY-gfSurYUjqFExE36mXU5ZruQxfTJgOYGdAU2aCusmnbV/pub?gid=1204360643&single=true&output=csv')
+            .then(response => response.text())
+            .then(csvData => {
+            // Parse CSV data
+            const rows = csvData.split('\n');
+            const tableBody = document.querySelector('#csvTable tbody');
+    
+            // Clear existing table content
+            tableBody.innerHTML = '';
+    
+            // Specify which columns to display by column number (0-indexed)
+            const displayColumns = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]; // Adjust these to your desired column numbers
+    
+            // Populate table rows, limiting to 60 rows
+            rows.slice(1, 60).forEach(rowData => {
+                const row = document.createElement('tr');
+                const cells = rowData.split(',');
+                displayColumns.forEach(index => {
+                    if (index >= 0 && index < cells.length) { // Check if column index is within bounds
+                        const cell = document.createElement('td');
+                        cell.textContent = cells[index].trim();
+                        row.appendChild(cell);
+                    }
+                });
+                tableBody.appendChild(row);
+            });
+            })
+            .catch(error => {
+            console.error('Error fetching CSV:', error);
+            });
+        });
+    
+        function sortTable(columnIndex) {
+            const table = document.getElementById('csvTable');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            const asc = table.dataset.asc === 'true';
+    
+            const sortMethod = getSortMethod(columnIndex);
+    
+            rows.sort((a, b) => {
+                const aVal = a.querySelectorAll('td')[columnIndex].textContent.trim();
+                const bVal = b.querySelectorAll('td')[columnIndex].textContent.trim();
+    
+                if (columnIndex === 0) { // Handle sorting for Player column (string values)
+                    return asc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+                } else if (columnIndex === 14) { // Handle sorting for octane rating
+                    return asc ? parseFloat(aVal) - parseFloat(bVal) : parseFloat(bVal) - parseFloat(aVal);
+                } else if (columnIndex === 12 || columnIndex === 13) { // Handle sorting for percentage values
+                    const aNum = parseFloat(aVal.replace('%', ''));
+                    const bNum = parseFloat(bVal.replace('%', ''));
+                    return asc ? aNum - bNum : bNum - aNum;
+                } else { // Handle sorting for other numerical values
+                    return asc ? Number(aVal) - Number(bVal) : Number(bVal) - Number(aVal);
+                }
+            });
+    
+            table.dataset.asc = !asc;
+            rows.forEach(row => tbody.appendChild(row));
+    
+            // Clear sort indicators
+            table.querySelectorAll('th').forEach(th => th.classList.remove('sort-asc', 'sort-desc'));
+    
+            // Set sort indicator on the clicked column
+            const th = table.querySelector(`th:nth-child(${columnIndex + 1})`);
+            th.classList.add(asc ? 'sort-asc' : 'sort-desc');
+        }
+    
+        function getSortMethod(columnIndex) {
+            // Add logic to determine sort method for each column based on columnIndex
+            // For simplicity, we'll just return 'string' for all columns in this example
+            return 'string';
+        }
+    </script>
+    
+
+</div>
+
+</body>
+</html>

@@ -3,8 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Player Stats</title>
+    <title>PNWRL - Split 1 Standings</title>
     <style>
+        /* Reset default margin and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         /* Global styles */
         body {
             font-family: Arial, sans-serif;
@@ -16,21 +23,54 @@
 
         /* Top-bar menu styles */
         .top-bar {
-            background-color: #000; /* Background color for the top-bar */
-            padding: 10px 20px; /* Add padding to top-bar */
+            background-color: #000;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .top-bar a {
-            color: #fff; /* Text color for links in the top-bar */
+            color: #fff;
             text-decoration: none;
-            margin-right: 20px; /* Add spacing between menu items */
-            font-size: 1.2rem; /* Font size for menu items */
+            margin-right: 20px;
+            font-size: 1.2rem;
         }
 
         .top-bar a:hover {
-            text-decoration: underline; /* Add underline on hover */
+            text-decoration: underline;
         }
 
+        /* Dropdown styles */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #000;
+            min-width: 160px;
+            z-index: 1;
+            padding: 10px;
+        }
+
+        .dropdown-content a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            margin-top: 5px;
+        }
+
+        .dropdown-content a:hover {
+            text-decoration: underline;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+      
+        /* Standings table styles */
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -42,7 +82,6 @@
             text-align: center;
         }
 
-        /* Standings table styles */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -71,32 +110,52 @@
 </head>
 <body>
 
-    <!-- Top-bar menu -->
-    <div class="top-bar">
-        <a href="home.html">Home</a>
-        <a href="standings.html">Standings</a>
-        <a href="teams.html">Teams</a>
-        <a href="stats.html">Player Stats</a>
+<!-- Top-bar menu -->
+<div class="top-bar">
+    <a href="home.html" class="home">Home</a>
+
+    <!-- Standings dropdown -->
+    <div class="dropdown">
+        <a href="#" class="standings">Standings</a>
+        <div class="dropdown-content">
+            <a href="standings_overall.html">Overall</a>
+            <a href="standings_preseason.html">Preseason Tournament</a>
+            <a href="standings_s1.html">Split 1</a>
+        </div>
     </div>
 
-    <table id="statsTable">
+    <!-- Teams dropdown -->
+    <div class="dropdown">
+        <a href="#" class="teams">Teams</a>
+    </div>
+
+    <!-- Player Stats dropdown -->
+    <div class="dropdown">
+        <a href="#" class="player-stats">Player Stats</a>
+        <div class="dropdown-content">
+            <a href="stats_overall.html">Overall</a>
+            <a href="stats_preseason.html">Preseason Tournament</a>
+            <a href="stats_s1.html">Split 1</a>
+        </div>
+    </div>
+</div>
+    
+<div class="container">
+    <h1>PNWRL - Split 1 Standings</h1>
+    <table id="standingsTable">
         <thead>
             <tr>
-                <th onclick="sortTable(0)">Player</th>
-                <th onclick="sortTable(1)">Games Played</th>
-                <th onclick="sortTable(2)">Total Points</th>
-                <th onclick="sortTable(3)">Points/Game</th>
-                <th onclick="sortTable(4)">Total Goals</th>
-                <th onclick="sortTable(5)">Goals/Game</th>
-                <th onclick="sortTable(6)">Total Assists</th>
-                <th onclick="sortTable(7)">Assists/Game</th>
-                <th onclick="sortTable(8)">Total Saves</th>
-                <th onclick="sortTable(9)">Saves/Game</th>
-                <th onclick="sortTable(10)">Total Shots</th>
-                <th onclick="sortTable(11)">Shots/Game</th>
-                <th onclick="sortTable(12)">Shot Percentage</th>
-                <th onclick="sortTable(13)">Goal Participation</th>
-                <th onclick="sortTable(14)">Octane Rating</th>
+                <th onclick="sortTable(0)">Team</th>
+                <th onclick="sortTable(1)">Matches Played</th>
+                <th onclick="sortTable(2)">Points Earned</th>
+                <th onclick="sortTable(3)">Match Wins</th>
+                <th onclick="sortTable(4)">Match Losses</th>
+                <th onclick="sortTable(5)">Win %</th>
+                <th onclick="sortTable(6)">Games Won</th>
+                <th onclick="sortTable(7)">Games Lost</th>
+                <th onclick="sortTable(8)">Goals</th>
+                <th onclick="sortTable(9)">Goals Allowed</th>
+                <th onclick="sortTable(10)">+/-</th>
             </tr>
         </thead>
         <tbody>
@@ -107,7 +166,7 @@
     <script>
         // Function to fetch data from CSV file
         function fetchData(callback) {
-            fetch('statsTest.csv')
+            fetch('standings_s1.csv')
                 .then(response => response.text())
                 .then(data => {
                     const rows = data.trim().split('\n').map(row => row.split(','));
@@ -116,10 +175,9 @@
                     callback(rows);
                 });
         }
-
         // Function to create table rows
         function createTableRows(data) {
-            const tbody = document.querySelector('#statsTable tbody');
+            const tbody = document.querySelector('#standingsTable tbody');
             tbody.innerHTML = '';
             data.forEach(row => {
                 const tr = document.createElement('tr');
@@ -130,11 +188,14 @@
                 });
                 tbody.appendChild(tr);
             });
+
+            // Sort the table by Points Earned in descending order after populating
+            sortTable(2);
         }
 
         // Function to sort the table
         function sortTable(columnIndex) {
-            const table = document.querySelector('#statsTable');
+            const table = document.querySelector('#standingsTable');
             const tbody = table.querySelector('tbody');
             const rows = Array.from(tbody.querySelectorAll('tr'));
             const asc = table.dataset.asc === 'true';
@@ -142,7 +203,9 @@
             rows.sort((a, b) => {
                 const aVal = a.cells[columnIndex].textContent;
                 const bVal = b.cells[columnIndex].textContent;
-                if (columnIndex === 12 || columnIndex === 13) { // Handle sorting for percentage values
+                if (columnIndex === 0) { // Handle sorting for Team column (string values)
+                    return asc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+                } else if (columnIndex === 5) { // Handle sorting for percentage values
                     const aNum = parseFloat(aVal.replace('%', ''));
                     const bNum = parseFloat(bVal.replace('%', ''));
                     return asc ? aNum - bNum : bNum - aNum;
@@ -158,6 +221,8 @@
         // Initial function call to fetch data and create table
         fetchData(createTableRows);
     </script>
+
+</div>
 
 </body>
 </html>

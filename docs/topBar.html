@@ -1,0 +1,116 @@
+<!-- topBar.html -->
+<style>
+    /* Top-bar menu styles */
+    .top-bar {
+        background-color: #000;
+        font-family: Arial, Helvetica, sans-serif;
+        padding: 10px 18px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: left;
+    }
+
+    .top-bar a {
+        color: #ffffff;
+        text-decoration: none;
+        margin-right: 20px;
+        font-size: 1.2rem;
+    }
+
+    .top-bar a:hover {
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+    }
+
+    .standings {
+        cursor: default;
+    }
+
+    .player-stats {
+        cursor: default;
+    }
+
+    .schedule {
+        cursor: default;
+    }
+
+    /* Dropdown styles */
+    .dropdown {
+        position: relative;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #000;
+        min-width: 240px;
+        z-index: 1;
+        padding: 10px;
+    }
+
+    .dropdown-content a {
+        color: #fff;
+        text-decoration: none;
+        display: block;
+        margin-top: 5px;
+    }
+
+    .dropdown-content a:hover {
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+    }
+
+    .dropdown-content .sub-menu {
+        margin-left: 15px;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+</style>
+
+<div class="top-bar">
+    <a href="home.html" class="home">Home</a>
+
+    <!-- Standings dropdown -->
+    <div class="dropdown">
+        <a href="#" class="standings">Standings</a>
+        <div class="dropdown-content">
+            <a href="standings_overall.html">Overall</a>
+            <a href="standings_s1.html">Split 1</a>
+        </div>
+    </div>
+
+    <!-- Teams dropdown -->
+    <a href="teams.html" class="teams">Teams</a>
+    <!-- <div class="dropdown">
+        <a href="#" class="teams">Teams</a>
+    </div> -->
+
+    <!-- Player Stats dropdown -->
+    <div class="dropdown">
+        <a href="#" class="player-stats">Player Stats</a>
+        <div class="dropdown-content">
+            <a href="stats_overall.html">Overall</a>
+            <a href="stats_preseason.html">Preseason Tournament</a>
+            <a href="stats_s1.html">Split 1</a>
+        </div>
+    </div>
+
+    <!-- Schedule dropdown -->
+    <div class="dropdown">
+        <a href="#" class="schedule">Schedule</a>
+        <div class="dropdown-content">
+            <a href="schedule_keyDates.html">Key Dates</a>
+            <a href="schedule_s1.html">Split 1</a>
+            <div class="sub-menu">
+                <a href="week1.html">Week 1 Matches</a>
+                <a href="week2.html">Week 2 Matches</a>
+                <a href="week3.html">Week 3 Matches</a>
+                <a href="week4.html">Week 4 Matches</a>
+                <a href="week5.html">Week 5 Matches</a>
+                <!-- Add more sub-menu links if needed -->
+            </div>
+        </div>
+    </div>
+</div>
